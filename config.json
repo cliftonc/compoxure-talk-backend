@@ -1,0 +1,41 @@
+{
+    "cdn":{
+        "url":"http://localhost:7334"
+    },
+    "parameters": {
+        "servers": {
+            "local": "http://localhost:7001"
+        }
+    },
+    "backend": [
+        {
+            "pattern": ".*",
+            "target":"http://localhost:7001",
+            "host":"localhost",
+            "ttl":"0",
+            "replaceOuter": false,
+            "quietFailure": false,
+            "leaveContentOnFail": false
+        }
+    ],
+    "cache": {
+        "engine": "redis",
+        "url":"redis://localhost:6379?db=0"
+    },
+    "statusCodeHandlers":{
+        "403":{
+            "fn":"handle403",
+            "data":{
+                "redirect":"https://skillsmatter.com/conferences/6361-fullstack-node-and-javascript-conference"
+            }
+        }
+    },
+    "circuitbreaker":{
+        "windowDuration":10000,
+        "numBuckets": 10,
+        "errorThreshold": 20,
+        "volumeThreshold": 5,
+        "includePath":true,
+        "publishToRedis":"redis://localhost:6379?db=0"
+    }
+}
